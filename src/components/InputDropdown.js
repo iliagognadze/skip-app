@@ -59,9 +59,9 @@ const InputDropdown = ({
   return (
     <div className="relative">
       <div
-        className={`outline-0 flex items-center justify-between border-2 border-ownbrown ${
-          isDropdownOpen ? "rounded-t" : "rounded"
-        }  rounded-t px-2 py-1 cursor-pointer`}
+        className={`outline-0 flex items-center justify-between border-2 border-ownblack ${
+          isDropdownOpen ? "rounded-t-lg" : "rounded-lg"
+        } px-2 py-1 cursor-pointer`}
         onClick={handleClick}
       >
         <p className="font-mtavruli">{label}</p>
@@ -71,7 +71,7 @@ const InputDropdown = ({
       <div
         ref={dropdownRef}
         className={`relative ${
-          isDropdownOpen ? "h-32 border-2 border-ownbrown px-2 py-1" : "h-0"
+          isDropdownOpen ? "h-32 border-2 border-ownblack border-lg px-2 py-1" : "h-0"
         } transition-height bg-white rounded-b w-full z-10 overflow-y-auto max-h-40`}
       >
         {choices.map((choice, i) => (

@@ -141,12 +141,12 @@ const Catalog = () => {
         <div className="md:flex-row flex flex-col md:grid grid-cols-12 gap-6 md:gap-3 text-left">
           <div
             id="checkboxDiv"
-            className="col-span-3 h-fit px-3 py-4 bg-white rounded"
+            className="col-span-3 h-fit px-5 py-6 bg-white rounded-lg"
           >
-            <form className="text-ownblack bg-white rounded font-mtavruli flex flex-col gap-3">
+            <form className="text-ownblack bg-white rounded-lg font-mtavruli flex flex-col gap-3">
               <input
                 ref={searchtermRef}
-                className="outline-0 border-2 border-ownblack w-full rounded px-2 py-1 placeholder-ownblack"
+                className="outline-0 border-2 border-ownblack w-full rounded-lg px-2 py-1 placeholder-ownblack"
                 placeholder="საძიებო სიტყვა"
                 value={searchterm}
                 onChange={searchtermChangeHandler}
@@ -171,7 +171,7 @@ const Catalog = () => {
                   value={litersFrom}
                   onChange={litersFromChangeHandler}
                   type="number"
-                  className="outline-0 placeholder-ownblack border-2 border-ownblack w-full rounded-t px-2 py-1"
+                  className="outline-0 placeholder-ownblack border-2 border-ownblack w-full rounded-t-lg px-2 py-1"
                   placeholder="ლიტრაჟი-დან"
                 />
                 <input
@@ -179,7 +179,7 @@ const Catalog = () => {
                   value={litersTo}
                   onChange={litersToChangeHandler}
                   type="number"
-                  className="outline-0 placeholder-ownblack border-2 border-t-0 border-ownblack w-full rounded-b px-2 py-1"
+                  className="outline-0 placeholder-ownblack border-2 border-t-0 border-ownblack w-full rounded-b-lg px-2 py-1"
                   placeholder="ლიტრაჟი-მდე"
                 />
               </div>
@@ -197,7 +197,7 @@ const Catalog = () => {
                   type="number"
                   placeholder="ფასი-დან"
                   tpye="number"
-                  className="border-2 placeholder-ownblack border-ownblack rounded py-1 px-2"
+                  className="border-2 placeholder-ownblack border-ownblack rounded-lg py-1 px-2"
                 />
                 <input
                   ref={priceToRef}
@@ -206,19 +206,19 @@ const Catalog = () => {
                   type="number"
                   placeholder="ფასი-დან"
                   tpye="number"
-                  className="border-2 placeholder-ownblack border-ownblack rounded py-1 px-2"
+                  className="border-2 placeholder-ownblack border-ownblack rounded-lg py-1 px-2"
                 />
               </div>
               <div className="flex items-center gap-3 justify-between">
                 <div
                   onClick={searchClickHandler}
-                  className="bg-secondary w-full text-center cursor-pointer text-white rounded py-1 px-2"
+                  className="bg-secondary w-full text-center cursor-pointer text-white rounded-lg py-1 px-2"
                 >
                   მოძებნა
                 </div>
                 <div
                   onClick={clearHandler}
-                  className="cursor-pointer border-red-500 bg-red-500 border-2 border-2 h-full rounded py-1 px-2"
+                  className="cursor-pointer border-red-500 bg-red-500 border-2 border-2 h-full rounded-lg py-1 px-2"
                 >
                   <img src="heroicons-outline_trash_vector.svg" />
                 </div>
