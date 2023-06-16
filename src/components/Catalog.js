@@ -139,7 +139,7 @@ const Catalog = () => {
             id="checkboxDiv"
             className="col-span-3 h-fit px-3 py-4 bg-white rounded"
           >
-            <form className="text-ownbrown flex flex-col gap-3">
+            <form className="text-ownbrown font-mtavruli flex flex-col gap-3">
               <input
                 ref={searchtermRef}
                 className="outline-0 border-2 border-ownbrown w-full rounded px-2 py-1 placeholder-ownbrown"
