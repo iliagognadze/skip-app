@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Instruction from "./Instruction";
 import InputDropdown from "./InputDropdown.js";
 import OilItem from "./OilItem";
-import OilDetailsModal from "./OilDetailsModal";
+import OilDetailsModal from "./OilDetailsModal.js";
 import LoadingSpin from "./LoadingSpin";
 import { Link } from "react-router-dom";
 

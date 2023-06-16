@@ -1,4 +1,4 @@
-import OilDetailsModal from "./OilDetailsModal";
+import OilDetailsModal from "./OilDetailsModal.js";
 
 const OilItem = (props) => {
     let item = props.itemData;
