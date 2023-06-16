@@ -16,7 +16,7 @@ const OilItem = (props) => {
 
     return (
         <div className="drop-shadow-lg font-mtavruli flex md:flex-col p-4 h-fit rounded bg-white md:hover:bg-gray-200 transition cursor-pointer" onClick={() => selectionHandler(item)}>
-            <p className={`text-xs ${item.productType == "premium" ? 'bg-yellow-400' : 'bg-gray-500 text-white'} text-secondary pt-1 px-2 rounded w-fit absolute uppercase`}>{item.productType}</p>
+            <p className={`text-xs ${item.productType == "premium" ? 'bg-yellow-400 text-ownblack' : 'bg-gray-500 text-white'} pt-1 px-2 rounded w-fit absolute uppercase`}>{item.productType}</p>
             <div className="w-full h-32 bg-contain mt-2 bg-center bg-no-repeat" style={itemImageWrapperStyle}>
 
             </div>
