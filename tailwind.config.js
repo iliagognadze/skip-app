@@ -147,6 +147,7 @@ module.exports = {
       txtdisabled: '#9F9F9F',
       bgdisabled: '#F9F9F9',
       labelbg: '#DFDFDF',
+      ownblack: '#171717',
       inherit: colors.inherit,
       current: colors.current,
       transparent: colors.transparent,
