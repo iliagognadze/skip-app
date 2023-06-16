@@ -24,7 +24,7 @@ const Navbar = () => {
       className="bg-primarybg sticky top-0 drop-shadow-md"
       style={{ zIndex: 10 }}
     >
-      <nav className="flex md:flex-row flex-col py-4 md:py-4 mx-auto justify-between items-center">
+      <nav className="flex md:flex-row flex-col py-4 md:py-6 mx-auto justify-between items-center">
         <div className="container mx-auto flex justify-between">
           <div className="flex justify-between w-full md:w-fit items-center">
             <a href="/">

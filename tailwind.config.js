@@ -210,7 +210,7 @@ module.exports = {
         sm: "100%",
         md: "1024px",
         lg: "1024px",
-        xl: "1280px",
+        xl: "1180px",
       },
     },
     content: {
