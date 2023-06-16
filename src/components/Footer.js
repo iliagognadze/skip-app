@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
         <div className="bg-primarybg font-mtavruli py-8">
-            <div className="flex md:flex-row flex-col justify-between gap-8 md:gap-0 text-left px-20">
+            <div className="flex md:flex-row container flex-col justify-between gap-8 md:gap-0 text-left">
                 <div className="">
                     <img className="mx-auto md:m-0 w-32" src="/skip_logo.svg" />
                     <p className="md:text-left text-center text-white text-xs mt-2">
