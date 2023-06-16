@@ -19,8 +19,8 @@ function OilDetailsModal({ isModalChecked, modalCheckSetter, item }) {
                     <div className='flex md:flex-row flex-col items-start text-left gap-8'>
                         <img className='w-32' src={`${item && item.imageUrl}`} />
                         <div className='flex flex-col gap-2'>
-                            <p className={`${item && item.productType == "premium" ? 'bg-yellow-400' : 
-                        'bg-gray-500 text-white'} text-secondary pt-1 px-2 rounded w-fit uppercase`}>{item && item.productType}</p>
+                            <p className={`${item && item.productType == "premium" ? 'bg-yellow-400 text-ownblack' : 
+                        'bg-gray-500 text-white'} pt-1 px-2 rounded w-fit uppercase`}>{item && item.productType}</p>
                             <p>{item && item.name}</p>
                             <p className='text-sm'>{item && item.description}</p>
                         </div>

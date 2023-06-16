@@ -245,6 +245,11 @@ const Catalog = () => {
           </div>
         </div>
       </div>
+      <OilDetailsModal
+        item={itemDetailsData}
+        isModalChecked={isModalChecked}
+        modalCheckSetter={setCheckboxValue}
+      />
     </div>
   );
 };
