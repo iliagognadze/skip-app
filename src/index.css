@@ -1,13 +1,14 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+@font-face {
+  font-family: "BPG Nino Mtavruli";   /*Can be any text*/
+  src: local("BPG Nino Mtavruli"),
+    url("./fonts/bpg_nino_mtavruli_bold.ttf") format("truetype");
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.bpg-mtavruli {
+  font-family: "BPG Nino Mtavruli";
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
