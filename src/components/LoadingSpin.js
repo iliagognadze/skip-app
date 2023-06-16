@@ -17,7 +17,7 @@ const LoadingSpin = () => {
           fill="currentFill"
         />
       </svg>
-      <p className="text-ownbrown mt-2">Loading...</p>
+      <p className="text-white font-mtavruli mt-2">იტვირთება...</p>
     </div>
   );
 };
