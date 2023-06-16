@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import Map from './Map';
-
 function OilDetailsModal({ isModalChecked, modalCheckSetter, item }) {
 
     const handleModalCheck = () => {
