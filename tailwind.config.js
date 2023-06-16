@@ -138,8 +138,9 @@ module.exports = {
     },
     caretColor: ({ theme }) => theme('colors'),
     colors: ({ colors }) => ({
-      primary: '#1870E2',
-      secondary: '#171717',
+      primary: '#081668',
+      primarybg: '#081665',
+      secondary: '#F6B60D',
       owngray: '#D4D4D4',
       ownbrown: '#7B7B7B',
       liteyellow: '#EDEDED',

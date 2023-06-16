@@ -21,14 +21,14 @@ const Navbar = () => {
 
   return (
     <div
-      className="bg-white sticky top-0 drop-shadow-md"
+      className="bg-primarybg sticky top-0 drop-shadow-md"
       style={{ zIndex: 10 }}
     >
       <nav className="flex md:flex-row flex-col py-4 md:py-4 mx-auto justify-between items-center">
         <div className="container mx-auto flex justify-between">
           <div className="flex justify-between w-full md:w-fit items-center">
             <a href="/">
-              <img className="w-24" src="/carzet-logo.svg" />
+              <img className="w-24" src="/skip_logo.svg" />
             </a>
             <img
               onClick={() => setRespoNavbarStatus(!isRespoNavbarActive)}
@@ -45,10 +45,10 @@ const Navbar = () => {
               src="./x_black.svg"
             />
           </div>
-          <ul className="font-mtavruli items-center text-secondary md:flex hidden">
+          <ul className="font-mtavruli items-center text-white md:flex hidden">
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary ${
-                activeLink === "home" ? "text-primary underline" : ""
+              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${
+                activeLink === "home" ? "text-secondary underline" : ""
               }`}
             >
               <NavLink to="/" id="home" onClick={handleClick}>
@@ -56,8 +56,8 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary ${
-                activeLink === "catalog" ? "text-primary underline" : ""
+              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${
+                activeLink === "catalog" ? "text-secondary underline" : ""
               }`}
             >
               <NavLink to="/catalog" id="catalog" onClick={handleClick}>
@@ -65,22 +65,9 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary`}
-            >
-              <a href="#">ჩვენს შესახებ</a>
-            </li>
-            <li
               className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding}`}
             >
-              <a className="text-white" href="#">
-                <div className="flex items-center bg-primary py-2 px-3 rounded">
-                  <p className="mr-2">ზეთის შეცვლა</p>
-                  <img
-                    className="w-6"
-                    src="/material-symbols_water-drop-white.png"
-                  />
-                </div>
-              </a>
+              <a href="#">ჩვენს შესახებ</a>
             </li>
             {/* <li className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding}`}>
                         <button><img className="w-6" src="/ri_moon-fill.png" /></button>
@@ -98,8 +85,8 @@ const Navbar = () => {
             } transition-height bg-white items-center text-secondary md:hidden flex bg-white flex-col py-4`}
           >
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary ${
-                activeLink === "home" ? "text-primary underline" : ""
+              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${
+                activeLink === "home" ? "text-secondary underline" : ""
               }`}
             >
               <NavLink to="/" id="home" onClick={handleClick}>
@@ -107,8 +94,8 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary ${
-                activeLink === "catalog" ? "text-primary underline" : ""
+              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${
+                activeLink === "catalog" ? "text-secondary underline" : ""
               }`}
             >
               <NavLink to="/catalog" id="catalog" onClick={handleClick}>
@@ -116,22 +103,9 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li
-              className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} hover:text-primary`}
-            >
-              <a href="#">ჩვენს შესახებ</a>
-            </li>
-            <li
               className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding}`}
             >
-              <a className="text-white" href="#">
-                <div className="flex items-center bg-primary py-2 px-3 rounded">
-                  <p className="mr-2">ზეთის შეცვლა</p>
-                  <img
-                    className="w-6"
-                    src="/material-symbols_water-drop-white.png"
-                  />
-                </div>
-              </a>
+              <a href="#">ჩვენს შესახებ</a>
             </li>
             {/* <li className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding}`}>
                         <button><img className="w-6" src="/ri_moon-fill.png" /></button>
