@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Catalog from './components/Catalog';
 import OrderingSection from './components/OrderingSection';
+import Footer from './components/Footer';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           </Routes>
         </div>
 
+        <Footer />
       </div>
     </Router>
   );
