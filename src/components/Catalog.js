@@ -232,19 +232,25 @@ const Catalog = () => {
           >
             {isLoading && <LoadingSpin />}
             {!isLoading &&
-              oilsData.map((item, i) => (
-                <Link
-                  className="h-fit"
-                  key={item.id}
-                  to="/ordering"
-                  state={{ item: item, itemTitle: "rasaidi" }}
-                >
-                  <OilItem
-                    itemData={item}
-                    onDetails={detailsOpenHandler}
-                    isFromCatalog={true}
-                  />
-                </Link>
+              (oilsData.length > 0 ? (
+                oilsData.map((item, i) => (
+                  <Link
+                    className="h-fit"
+                    key={item.id}
+                    to="/ordering"
+                    state={{ item: item, itemTitle: "rasaidi" }}
+                  >
+                    <OilItem
+                      itemData={item}
+                      onDetails={detailsOpenHandler}
+                      isFromCatalog={true}
+                    />
+                  </Link>
+                ))
+              ) : (
+                <div className="w-100 col-span-9 flex flex-col mx-auto items-center justify-center text-white font-mtavruli text-center">
+                  <p>არაფერი მოიძებნა</p>
+                </div>
               ))}
           </div>
         </div>
