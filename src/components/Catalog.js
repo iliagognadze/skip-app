@@ -134,12 +134,16 @@ const Catalog = () => {
     <div className="bg-primary">
       <div className="container py-10">
         <Instruction />
-        <div className="md:flex-row flex my-8 flex-col md:grid grid-cols-12 gap-6 md:gap-3 text-left">
+        <div className="text-left font-mtavruli text-white my-4">
+          <p>კატალოგი</p>
+          <p className="text-xs">აღმოაჩინე ძრავის ზეთები ჩვენთან ერთად</p>
+        </div>
+        <div className="md:flex-row flex flex-col md:grid grid-cols-12 gap-6 md:gap-3 text-left">
           <div
             id="checkboxDiv"
             className="col-span-3 h-fit px-3 py-4 bg-white rounded"
           >
-            <form className="text-ownblack font-mtavruli flex flex-col gap-3">
+            <form className="text-ownblack bg-white rounded font-mtavruli flex flex-col gap-3">
               <input
                 ref={searchtermRef}
                 className="outline-0 border-2 border-ownblack w-full rounded px-2 py-1 placeholder-ownblack"
