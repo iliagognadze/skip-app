@@ -13,7 +13,7 @@ function Map(props) {
   });
 
   const options = {
-    disableDefaultUI: true,
+    disableDefaultUI: false,
   };
 
   const autoCompletionPlace = props.autoCompletionPlace;

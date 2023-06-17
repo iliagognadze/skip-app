@@ -121,7 +121,7 @@ const OrderingSection = (props) => {
                     setPrevOfNameField
                   )
                 }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="სახელი"
               />
               <hr className="w-full border-1 border-ownblack" />
@@ -136,7 +136,7 @@ const OrderingSection = (props) => {
                     setPrevOfSurnameField
                   )
                 }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="გვარი"
               />
               <hr className="w-full border-1 border-ownblack" />
@@ -151,21 +151,21 @@ const OrderingSection = (props) => {
                     setPrevOfPhoneNumberField
                   )
                 }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="ტელ. ნომერი (+995)"
               />
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
               <input
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="მეილი"
               />
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
               <input
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="დამატებითი კომენტარი"
               />
               <hr className="w-full border-1 border-ownblack" />
@@ -174,7 +174,7 @@ const OrderingSection = (props) => {
           <ul className="flex bg-white py-6 px-8 rounded-lg flex-col gap-5">
             <li>
               <Autocomplete
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
                 onPlaceSelected={(place) => {
                   setAutoCompletionPlace(place);
@@ -226,27 +226,13 @@ const OrderingSection = (props) => {
             </div>
             <button
               className={`rounded w-full py-4 text-white flex justify-center ${
-                readyToPay ? "bg-primary" : "bg-blue-300"
-              } transition flextransition-width h-full`}
+                readyToPay ? "bg-primary" : "bg-gray-300"
+              } transition h-full`}
               disabled={!readyToPay}
             >
               გადახდა {itemData && itemData.price}₾
             </button>
           </div>
-        </div>
-
-        <div className="flex w-full md:hidden">
-          <button
-            className={`rounded w-full flex justify-center ${
-              readyToPay ? "bg-primary" : "bg-gray-400"
-            } transition flextransition-width h-full`}
-            disabled={readyToPay}
-          >
-            <div className="flex items-center mr-3">
-              <p className="text-white">გადახდა</p>
-              <img className="ml-2 mb-1" src="./mdi_cash-fast.svg" />
-            </div>
-          </button>
         </div>
       </div>
       <OilDetailsModal

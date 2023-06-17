@@ -7,6 +7,22 @@
   pointer-events: none;
 }
 
+.pac-container {
+  background-color: #061252;
+  font-family: "BPG Nino Mtavruli";
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+ }
+ .pac-item, .pac-item-query {
+  font-size: 14px;
+  color: #f7f7f7;
+ }
+
+ .pac-item:hover {
+  background: #F6B60D;
+  cursor: pointer;
+ }
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
