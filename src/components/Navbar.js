@@ -45,7 +45,7 @@ const Navbar = () => {
               src="./x_black.svg"
             />
           </div>
-          <ul className="font-mtavruli items-center text-white md:flex hidden">
+          <ul className="font-mtavruli gap-8 items-center text-white md:flex hidden">
             <li
               className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${
                 activeLink === "home" ? "text-secondary underline" : ""
