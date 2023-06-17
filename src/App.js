@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 function App() {
   return (
     <Router>
-      <div className="App overflow-x-hidden">
+      <div className="App overflow-x-hidden bg-primary">
         <Navbar />
 
         <div className='content'>
