@@ -184,8 +184,8 @@ const OrderingSection = (props) => {
               />
               <hr className="w-full border-1 border-ownblack" />
             </li>
-            <div className="flex justify-end mt-0 md:mt-6 md:static right-0">
-                <Map onAddressChange={onAddressSelection} />
+            <div className="flex justify-end rounded-lg md:static right-0">
+                <Map onAddressChange={onAddressSelection}/>
             </div>
           </ul>
         </form>
