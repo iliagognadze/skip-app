@@ -4,6 +4,7 @@ import Map from "./Map";
 import OilDetailsModal from "./OilDetailsModal";
 import { useLocation } from "react-router-dom";
 import Instruction from "./Instruction";
+import Autocomplete from "react-google-autocomplete";
 
 const OrderingSection = (props) => {
   const location = useLocation();
@@ -18,6 +19,8 @@ const OrderingSection = (props) => {
 
   let [isModalChecked, setCheckboxValue] = useState(false);
   let [itemData, setItemData] = useState(null);
+
+  let [autoCompletionPlace, setAutoCompletionPlace] = useState(null);
 
   let carModelString =
     props.inputData &&
@@ -64,6 +67,7 @@ const OrderingSection = (props) => {
   };
 
   const inputFieldChangeHandler = (ref, prevState, setPrev) => {
+    console.log(ref);
     let value = ref.current.value;
     console.log(`current value: ${value}, prev value: ${prevState}`);
     if (value && !prevState) {
@@ -169,7 +173,19 @@ const OrderingSection = (props) => {
           </ul>
           <ul className="flex bg-white py-6 px-8 rounded-lg flex-col gap-5">
             <li>
-              <input
+              <Autocomplete
+                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
+                apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
+                onPlaceSelected={(place) => {
+                  setAutoCompletionPlace(place);
+                  console.log(autoCompletionPlace);
+                }}
+                options={{
+                  componentRestrictions: { country: "ge" },
+                  fields: ["address_components", "geometry", "icon", "name"],
+                  types: ["address"],
+                }}
+                value={addressFieldRef.current ? addressFieldRef.current?.value : "p"}
                 ref={addressFieldRef}
                 onChange={() =>
                   inputFieldChangeHandler(
@@ -178,14 +194,11 @@ const OrderingSection = (props) => {
                     setPrevOfAddressField
                   )
                 }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 rounded-lg outline-0 w-full placeholder-ownblack border md:border-0 md:border-bottom-2 md:border-ownblack"
-                value={addressFieldRef.current?.value}
-                placeholder="მისამართი"
               />
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <div className="flex justify-end rounded-lg md:static right-0">
-                <Map onAddressChange={onAddressSelection}/>
+              <Map onAddressChange={onAddressSelection} autoCompletionPlace={autoCompletionPlace} />
             </div>
           </ul>
         </form>
@@ -216,7 +229,9 @@ const OrderingSection = (props) => {
                 readyToPay ? "bg-primary" : "bg-blue-300"
               } transition flextransition-width h-full`}
               disabled={!readyToPay}
-            >გადახდა {itemData && itemData.price}₾</button>
+            >
+              გადახდა {itemData && itemData.price}₾
+            </button>
           </div>
         </div>
 
