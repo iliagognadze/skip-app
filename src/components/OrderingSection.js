@@ -13,7 +13,7 @@ const OrderingSection = (props) => {
 
   let [readyToPay, setReadyToPay] = useState(false);
   let [address, setAddress] = useState("");
-  
+
   let [prevOfNameField, setPrevOfNameField] = useState(null);
   let [prevOfSurnameField, setPrevOfSurnameField] = useState(null);
   let [prevOfPhoneNumberField, setPrevOfPhoneNumberField] = useState(null);
@@ -93,7 +93,7 @@ const OrderingSection = (props) => {
     let locationName = addressFieldRef.current.value;
     let oilId = itemData.id;
     let oilPrice = itemData.price;
-    
+
     let order = {
       customerName,
       customerSurname,
@@ -104,28 +104,28 @@ const OrderingSection = (props) => {
       oilPrice,
       locationLat: choosenLat,
       locationLng: choosenLng,
-      additionalComment
+      additionalComment,
     };
 
     await postOrder(order);
-  }
+  };
 
   const postOrder = async (order) => {
     try {
       const requestBody = order;
       setPaymentLoading(true);
-      const response = await axios.post("https://localhost:44393/api/orders", requestBody);
+      const response = await axios.post(
+        "https://localhost:44393/api/orders",
+        requestBody
+      );
 
       console.log(response);
       setPaymentLoading(false);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error.response.data.message);
       setPaymentLoading(false);
     }
-  }
-  
-
+  };
 
   return (
     <div
@@ -140,18 +140,21 @@ const OrderingSection = (props) => {
         <form className="col-span-5 text-ownblack flex flex-col gap-6 justify-between">
           <ul className="flex bg-white pt-6 pb-8 px-8 rounded-lg flex-col gap-5">
             <li className="text-ownblack">
-              <input
-                ref={nameFieldRef}
-                onChange={() =>
-                  inputFieldChangeHandler(
-                    nameFieldRef,
-                    prevOfNameField,
-                    setPrevOfNameField
-                  )
-                }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
-                placeholder="სახელი"
-              />
+              <div className="flex items-center justify-between">
+                <input
+                  ref={nameFieldRef}
+                  onChange={() =>
+                    inputFieldChangeHandler(
+                      nameFieldRef,
+                      prevOfNameField,
+                      setPrevOfNameField
+                    )
+                  }
+                  className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  placeholder="სახელი"
+                />
+                <span className="text-red-500">*</span>
+              </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
@@ -214,7 +217,9 @@ const OrderingSection = (props) => {
                   fields: ["address_components", "geometry", "icon", "name"],
                   types: ["address"],
                 }}
-                value={addressFieldRef.current ? addressFieldRef.current?.value : "p"}
+                value={
+                  addressFieldRef.current ? addressFieldRef.current?.value : "p"
+                }
                 ref={addressFieldRef}
                 onChange={() =>
                   inputFieldChangeHandler(
@@ -227,7 +232,10 @@ const OrderingSection = (props) => {
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <div className="flex justify-end rounded-lg md:static right-0">
-              <Map onAddressChange={onAddressSelection} autoCompletionPlace={autoCompletionPlace} />
+              <Map
+                onAddressChange={onAddressSelection}
+                autoCompletionPlace={autoCompletionPlace}
+              />
             </div>
           </ul>
         </form>

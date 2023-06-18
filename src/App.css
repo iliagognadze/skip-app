@@ -118,6 +118,16 @@
   }
 }
 
+.input-group{
+  position: relative;
+}
+.input-group::after{
+  content: '*';
+  position: absolute;
+  top: 3px;
+  left: 46px;
+  color: #f00
+}
 
 @keyframes App-logo-spin {
   from {
