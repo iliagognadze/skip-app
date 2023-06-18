@@ -22,11 +22,12 @@ function Map(props) {
   const [center, setCenter] = useState({ lat: 41.7151377, lng: 44.827096 });
 
   const getAddressFromLatLng = (location) => {
+    console.log(location);
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location: location }, (results, status) => {
       if (status === "OK") {
         let addressString = `${results[0].formatted_address}, ${results[3].formatted_address}`;
-        props.onAddressChange(addressString);
+        props.onAddressChange(addressString, location.lat, location.lng);
       } else {
         console.log(
           "Geocode was not successful for the following reason: " + status

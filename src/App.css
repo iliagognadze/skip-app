@@ -44,6 +44,81 @@
   color: #61dafb;
 }
 
+.animated {
+  animation: myAnimation 0.1s ease-in-out;
+}
+
+@keyframes myAnimation {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+.textfield {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 300px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  &__label {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    display: block;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(77, 77, 77, 0.5);
+    user-select: none;
+    cursor: text;
+    &::after {
+      position: relative;
+      top: -3px;
+      left: 1px;
+      display: inline-block;
+      content: "*";
+      color: #d0011b;
+    }
+  }
+  &__input {
+    display: block;
+    box-sizing: border-box;
+    height: 48px;
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background: #ffffff;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    outline: none;
+    transition: all 0.25s linear;
+    &:focus {
+      border-color: #3a82c6;
+    }
+    &:disabled {
+      border-color: #e6e6e6;
+      background: #f9fafb;
+    }
+    &::placeholder {
+      color: transparent;
+    }
+  }
+  &__input:focus + &__label,
+  &__input:valid + &__label,
+  &__input:disabled + &__label {
+    display: none;
+  }
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

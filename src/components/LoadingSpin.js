@@ -1,6 +1,6 @@
 const LoadingSpin = () => {
   return (
-    <div className="flex flex-col mx-auto items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <svg
         aria-hidden="true"
         class="w-8 h-8 mr-2 text-gray-200 animate-spin fill-primary"
@@ -17,7 +17,6 @@ const LoadingSpin = () => {
           fill="currentFill"
         />
       </svg>
-      <p className="text-white font-mtavruli mt-2">იტვირთება...</p>
     </div>
   );
 };

@@ -1,37 +1,40 @@
 import { useState, useRef, useEffect } from "react";
-import MapModal from "./MapModal";
 import Map from "./Map";
 import OilDetailsModal from "./OilDetailsModal";
 import { useLocation } from "react-router-dom";
 import Instruction from "./Instruction";
 import Autocomplete from "react-google-autocomplete";
+import LoadingSpin from "./LoadingSpin";
+import LoadingModal from "./LoadingModal";
+import axios from "axios";
 
 const OrderingSection = (props) => {
   const location = useLocation();
 
   let [readyToPay, setReadyToPay] = useState(false);
   let [address, setAddress] = useState("");
-
+  
   let [prevOfNameField, setPrevOfNameField] = useState(null);
   let [prevOfSurnameField, setPrevOfSurnameField] = useState(null);
   let [prevOfPhoneNumberField, setPrevOfPhoneNumberField] = useState(null);
   let [prevOfAddressField, setPrevOfAddressField] = useState(null);
+
+  let [choosenLat, setChoosenLat] = useState(null);
+  let [choosenLng, setChoosenLng] = useState(null);
 
   let [isModalChecked, setCheckboxValue] = useState(false);
   let [itemData, setItemData] = useState(null);
 
   let [autoCompletionPlace, setAutoCompletionPlace] = useState(null);
 
-  let carModelString =
-    props.inputData &&
-    Object.entries(props.inputData).reduce((acc, [key, value], index) => {
-      return acc + `${index > 2 ? ", " : " "}${value}`;
-    }, "");
+  let [paymentLoading, setPaymentLoading] = useState(false);
 
   const nameFieldRef = useRef(null);
   const surnameFieldRef = useRef(null);
   const phoneNumberFieldRef = useRef(null);
   const addressFieldRef = useRef(null);
+  const mailFieldRef = useRef(null);
+  const additionalCommentFieldRef = useRef(null);
 
   let isFromCatalogue =
     location.state && location.state.itemTitle !== undefined;
@@ -41,19 +44,17 @@ const OrderingSection = (props) => {
   };
 
   useEffect(() => {
-    console.log(location.state, "zdzd");
     if (isFromCatalogue) {
       setItemData(location.state.item);
     } else {
       setItemData(props.selectedOilEngine);
     }
-
-    console.log(isFromCatalogue);
   }, []);
 
-  const onAddressSelection = (address) => {
-    console.log("address selected from map");
+  const onAddressSelection = (address, lat, lng) => {
     setAddress(address);
+    setChoosenLat(lat);
+    setChoosenLng(lng);
     addressFieldRef.current.value = address;
     inputFieldChangeHandler(
       addressFieldRef,
@@ -62,20 +63,7 @@ const OrderingSection = (props) => {
     );
   };
 
-  const phoneValidator = () => {
-    return phoneNumberFieldRef.current.value.length === 9;
-  };
-
   const inputFieldChangeHandler = (ref, prevState, setPrev) => {
-    console.log(ref);
-    let value = ref.current.value;
-    console.log(`current value: ${value}, prev value: ${prevState}`);
-    if (value && !prevState) {
-      //props.onPercentChange(6.25, "+");
-    }
-    if (!value && prevState) {
-      //props.onPercentChange(6.25, "-");
-    }
     setPrev(ref.current.value);
     if (
       nameFieldRef.current.value &&
@@ -89,15 +77,55 @@ const OrderingSection = (props) => {
     }
   };
 
-  let data = props.inputData;
+  const [isAnimated, setIsAnimated] = useState(false);
 
-  let keysToWord = {
-    manufacturer: "მწარმოებელი",
-    model: "მოდელი",
-    year: "წელი",
-    engineType: "ძრავის ტიპი",
-    fuelType: "საწვავის ტიპი",
+  const handleClick = () => {
+    setIsAnimated(!isAnimated);
   };
+
+  const handlePayment = async () => {
+    handleClick();
+    let customerName = nameFieldRef.current.value;
+    let customerSurname = surnameFieldRef.current.value;
+    let customerPhoneNumber = phoneNumberFieldRef.current.value;
+    let customerMail = mailFieldRef.current.value;
+    let additionalComment = additionalCommentFieldRef.current.value;
+    let locationName = addressFieldRef.current.value;
+    let oilId = itemData.id;
+    let oilPrice = itemData.price;
+    
+    let order = {
+      customerName,
+      customerSurname,
+      customerPhoneNumber,
+      customerMail,
+      locationName,
+      oilId,
+      oilPrice,
+      locationLat: choosenLat,
+      locationLng: choosenLng,
+      additionalComment
+    };
+
+    await postOrder(order);
+  }
+
+  const postOrder = async (order) => {
+    try {
+      const requestBody = order;
+      setPaymentLoading(true);
+      const response = await axios.post("https://localhost:44393/api/orders", requestBody);
+
+      console.log(response);
+      setPaymentLoading(false);
+    }
+    catch (error) {
+      console.log(error.response.data.message);
+      setPaymentLoading(false);
+    }
+  }
+  
+
 
   return (
     <div
@@ -158,6 +186,7 @@ const OrderingSection = (props) => {
             </li>
             <li>
               <input
+                ref={mailFieldRef}
                 className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="მეილი"
               />
@@ -165,6 +194,7 @@ const OrderingSection = (props) => {
             </li>
             <li>
               <input
+                ref={additionalCommentFieldRef}
                 className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="დამატებითი კომენტარი"
               />
@@ -178,7 +208,6 @@ const OrderingSection = (props) => {
                 apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
                 onPlaceSelected={(place) => {
                   setAutoCompletionPlace(place);
-                  console.log(autoCompletionPlace);
                 }}
                 options={{
                   componentRestrictions: { country: "ge" },
@@ -225,12 +254,14 @@ const OrderingSection = (props) => {
               </div>
             </div>
             <button
-              className={`rounded w-full py-4 text-white flex justify-center ${
-                readyToPay ? "bg-primary" : "bg-gray-300"
+              id="paymentBtn"
+              className={`rounded button-click w-full py-4 text-white flex items-center justify-center ${
+                readyToPay ? "bg-green-500" : "bg-gray-300"
               } transition h-full`}
               disabled={!readyToPay}
+              onClick={handlePayment}
             >
-              გადახდა {itemData && itemData.price}₾
+              <p>გადახდა {itemData && itemData.price}₾</p>
             </button>
           </div>
         </div>
@@ -240,6 +271,7 @@ const OrderingSection = (props) => {
         isModalChecked={isModalChecked}
         modalCheckSetter={setCheckboxValue}
       />
+      {paymentLoading && <LoadingModal />}
     </div>
   );
 };
