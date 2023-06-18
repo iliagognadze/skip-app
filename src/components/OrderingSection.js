@@ -8,6 +8,8 @@ import LoadingSpin from "./LoadingSpin";
 import LoadingModal from "./LoadingModal";
 import axios from "axios";
 
+import { getCurrentPosition } from "../functions/GetCurrentPosition";
+
 const OrderingSection = (props) => {
   const location = useLocation();
 
@@ -26,6 +28,7 @@ const OrderingSection = (props) => {
   let [itemData, setItemData] = useState(null);
 
   let [autoCompletionPlace, setAutoCompletionPlace] = useState(null);
+  let [isCurrentPositionCalled, setCurrentPositionCalled] = useState(false);
 
   let [paymentLoading, setPaymentLoading] = useState(false);
 
@@ -127,6 +130,23 @@ const OrderingSection = (props) => {
     }
   };
 
+  const getCurrentPositionHandler = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let lat = position.coords.latitude;
+        let lng = position.coords.longitude;
+        let currentPosition = {
+          lat: lat,
+          lng: lng,
+        };
+        console.log(currentPosition);
+        setChoosenLat(lat);
+        setChoosenLng(lng);
+      });
+    }
+    setCurrentPositionCalled(true);
+  };
+
   return (
     <div
       className={`font-mtavruli container mx-auto ${
@@ -206,35 +226,47 @@ const OrderingSection = (props) => {
           </ul>
           <ul className="flex bg-white py-6 px-8 rounded-lg flex-col gap-5">
             <li>
-              <Autocomplete
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
-                apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
-                onPlaceSelected={(place) => {
-                  setAutoCompletionPlace(place);
-                }}
-                options={{
-                  componentRestrictions: { country: "ge" },
-                  fields: ["address_components", "geometry", "icon", "name"],
-                  types: ["address"],
-                }}
-                value={
-                  addressFieldRef.current ? addressFieldRef.current?.value : "p"
-                }
-                ref={addressFieldRef}
-                onChange={() =>
-                  inputFieldChangeHandler(
-                    addressFieldRef,
-                    prevOfAddressField,
-                    setPrevOfAddressField
-                  )
-                }
-              />
+              <div className="flex flex-items-center justify-between">
+                <Autocomplete
+                  className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
+                  onPlaceSelected={(place) => {
+                    setAutoCompletionPlace(place);
+                  }}
+                  options={{
+                    componentRestrictions: { country: "ge" },
+                    fields: ["address_components", "geometry", "icon", "name"],
+                    types: [ [ "address" ],  ["establishment" ],  ["point_of_interest" ], ["transit_station"] ]
+                  }}
+                  value={
+                    addressFieldRef.current
+                      ? addressFieldRef.current?.value
+                      : "p"
+                  }
+                  ref={addressFieldRef}
+                  onChange={() =>
+                    inputFieldChangeHandler(
+                      addressFieldRef,
+                      prevOfAddressField,
+                      setPrevOfAddressField
+                    )
+                  }
+                />
+                <div
+                  className="w-4 h-4 bg-primary"
+                  onClick={getCurrentPositionHandler}
+                ></div>
+              </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <div className="flex justify-end rounded-lg md:static right-0">
-              <Map
+            <Map
                 onAddressChange={onAddressSelection}
                 autoCompletionPlace={autoCompletionPlace}
+                choosenLat={choosenLat}
+                choosenLng={choosenLng}
+                isCurrentPositionCalled={isCurrentPositionCalled}
+                setCurrentPositionCalled={setCurrentPositionCalled}
               />
             </div>
           </ul>
@@ -263,7 +295,7 @@ const OrderingSection = (props) => {
             </div>
             <button
               id="paymentBtn"
-              className={`rounded button-click w-full py-4 text-white flex items-center justify-center ${
+              className={`rounded active:bg-primary button-click w-full py-4 text-white flex items-center justify-center ${
                 readyToPay ? "bg-green-500" : "bg-gray-300"
               } transition h-full`}
               disabled={!readyToPay}

@@ -17,6 +17,9 @@ function Map(props) {
   };
 
   const autoCompletionPlace = props.autoCompletionPlace;
+  const choosenLat = props.choosenLat;
+  const choosenLng = props.choosenLng;
+  const isCurrentPositionCalled = props.isCurrentPositionCalled;
 
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState({ lat: 41.7151377, lng: 44.827096 });
@@ -42,7 +45,7 @@ function Map(props) {
       (position) => {
         const { latitude, longitude } = position.coords;
         setCenter({ lat: latitude, lng: longitude });
-        map.panTo({ lat: latitude, lng: longitude });
+        if (map) map.panTo({ lat: latitude, lng: longitude });
         getAddressFromLatLng({ lat: latitude, lng: longitude });
       },
       () => null
@@ -74,13 +77,30 @@ function Map(props) {
           const latitude = lat;
           const longitude = lng;
           setCenter({ lat: latitude, lng: longitude });
-          map.panTo({ lat: latitude, lng: longitude });
+          if (map) map.panTo({ lat: latitude, lng: longitude });
           getAddressFromLatLng({ lat: latitude, lng: longitude });
         },
         () => null
       );
     }
   }, [autoCompletionPlace]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let lat = position.coords.latitude;
+        let lng = position.coords.longitude;
+
+        const latitude = lat;
+        const longitude = lng;
+        setCenter({ lat: latitude, lng: longitude });
+        if (map) map.panTo({ lat: latitude, lng: longitude });
+        getAddressFromLatLng({ lat: latitude, lng: longitude });
+      });
+    }
+
+    props.setCurrentPositionCalled(false);
+  }, [isCurrentPositionCalled]);
 
   return isLoaded ? (
     <GoogleMap
