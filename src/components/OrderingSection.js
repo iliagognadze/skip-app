@@ -20,6 +20,7 @@ const OrderingSection = (props) => {
   let [prevOfSurnameField, setPrevOfSurnameField] = useState(null);
   let [prevOfPhoneNumberField, setPrevOfPhoneNumberField] = useState(null);
   let [prevOfAddressField, setPrevOfAddressField] = useState(null);
+  let [prevOfCarNumberField, setPrevOfCarNumberField] = useState(null);
 
   let [choosenLat, setChoosenLat] = useState(null);
   let [choosenLng, setChoosenLng] = useState(null);
@@ -38,6 +39,20 @@ const OrderingSection = (props) => {
   const addressFieldRef = useRef(null);
   const mailFieldRef = useRef(null);
   const additionalCommentFieldRef = useRef(null);
+  const carNumberFieldRef = useRef(null);
+
+  const isValidPhoneNumber = (number) => {
+    var pattern = /^5\d{8}$/;
+    return pattern.test(number);
+  };
+
+  const isCarNumberValid = (number) => {
+    number = number.toUpperCase();
+    var patternVersion1 = /^([A-Z]{2}-\d{3}-[A-Z]{2}|[A-Z]{3}-\d{3})$/;
+    var patternVersion2 = /^([A-Z]{2,3}-\d{3}-[A-Z]{2}|[A-Z]{3}-\d{3})$/;
+
+    return patternVersion1.test(number) || patternVersion2.test(number);
+  };
 
   let isFromCatalogue =
     location.state && location.state.itemTitle !== undefined;
@@ -71,8 +86,9 @@ const OrderingSection = (props) => {
     if (
       nameFieldRef.current.value &&
       surnameFieldRef.current.value &&
-      phoneNumberFieldRef.current.value &&
-      addressFieldRef.current.value
+      isValidPhoneNumber(phoneNumberFieldRef.current.value) &&
+      addressFieldRef.current.value &&
+      isCarNumberValid(carNumberFieldRef.current.value)
     ) {
       readyToPayHandler(true);
     } else {
@@ -94,6 +110,7 @@ const OrderingSection = (props) => {
     let customerMail = mailFieldRef.current.value;
     let additionalComment = additionalCommentFieldRef.current.value;
     let locationName = addressFieldRef.current.value;
+    let carNumber = carNumberFieldRef.current.value.toUpperCase();
     let oilId = itemData.id;
     let oilPrice = itemData.price;
 
@@ -108,6 +125,7 @@ const OrderingSection = (props) => {
       locationLat: choosenLat,
       locationLng: choosenLng,
       additionalComment,
+      carNumber,
     };
 
     await postOrder(order);
@@ -178,33 +196,78 @@ const OrderingSection = (props) => {
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
-              <input
-                ref={surnameFieldRef}
-                onChange={() =>
-                  inputFieldChangeHandler(
-                    surnameFieldRef,
-                    prevOfSurnameField,
-                    setPrevOfSurnameField
-                  )
-                }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
-                placeholder="გვარი"
-              />
+              <div className="flex items-center justify-between">
+                <input
+                  ref={surnameFieldRef}
+                  onChange={() =>
+                    inputFieldChangeHandler(
+                      surnameFieldRef,
+                      prevOfSurnameField,
+                      setPrevOfSurnameField
+                    )
+                  }
+                  className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  placeholder="გვარი"
+                />
+                <span className="text-red-500">*</span>
+              </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
-              <input
-                ref={phoneNumberFieldRef}
-                onChange={() =>
-                  inputFieldChangeHandler(
-                    phoneNumberFieldRef,
-                    prevOfPhoneNumberField,
-                    setPrevOfPhoneNumberField
-                  )
-                }
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
-                placeholder="ტელ. ნომერი (+995)"
-              />
+              <div className="flex justify-between items-center">
+                <div className="flex items-center w-full gap-2">
+                  <span>+995</span>
+                  <input
+                    ref={phoneNumberFieldRef}
+                    onChange={() =>
+                      inputFieldChangeHandler(
+                        phoneNumberFieldRef,
+                        prevOfPhoneNumberField,
+                        setPrevOfPhoneNumberField
+                      )
+                    }
+                    className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                    placeholder="ტელ. ნომერი"
+                  />
+                </div>
+                <div className="flex items-center gap-2 py-1 justify-between">
+                  {phoneNumberFieldRef.current &&
+                    phoneNumberFieldRef.current.value &&
+                    !isValidPhoneNumber(phoneNumberFieldRef.current.value) && (
+                      <p className="bg-red-400 text-white pt-1 px-2 text-sm rounded-lg">
+                        INVALID
+                      </p>
+                    )}
+                  <span className="text-red-500 ">*</span>
+                </div>
+              </div>
+              <hr className="w-full border-1 border-ownblack" />
+            </li>
+            <li>
+              <div className="flex items-center justify-between">
+                <input
+                  ref={carNumberFieldRef}
+                  onChange={() =>
+                    inputFieldChangeHandler(
+                      carNumberFieldRef,
+                      prevOfCarNumberField,
+                      setPrevOfCarNumberField
+                    )
+                  }
+                  className="bg-white uppercase placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  placeholder="მანქანის ნომერი (მაგ. AA-123-AA ან AAA-123)"
+                />
+                <div className="flex items-center gap-2 py-1 justify-between">
+                  {carNumberFieldRef.current &&
+                    carNumberFieldRef.current.value &&
+                    !isCarNumberValid(carNumberFieldRef.current.value) && (
+                      <p className="bg-red-400 text-white pt-1 px-2 text-sm rounded-lg">
+                        INVALID
+                      </p>
+                    )}
+                  <span className="text-red-500 ">*</span>
+                </div>
+              </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <li>
@@ -236,7 +299,12 @@ const OrderingSection = (props) => {
                   options={{
                     componentRestrictions: { country: "ge" },
                     fields: ["address_components", "geometry", "icon", "name"],
-                    types: [ [ "address" ],  ["establishment" ],  ["point_of_interest" ], ["transit_station"] ]
+                    types: [
+                      ["address"],
+                      ["establishment"],
+                      ["point_of_interest"],
+                      ["transit_station"],
+                    ],
                   }}
                   value={
                     addressFieldRef.current
@@ -253,14 +321,16 @@ const OrderingSection = (props) => {
                   }
                 />
                 <div
-                  className="w-4 h-4 bg-primary"
+                  className="w-8 h-7 mb-1 flex justify-center items-center rounded cursor-pointer h-100 bg-primary"
                   onClick={getCurrentPositionHandler}
-                ></div>
+                >
+                  <img className="w-5" src="/myLocation.svg" alt="location" />
+                </div>
               </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
             <div className="flex justify-end rounded-lg md:static right-0">
-            <Map
+              <Map
                 onAddressChange={onAddressSelection}
                 autoCompletionPlace={autoCompletionPlace}
                 choosenLat={choosenLat}

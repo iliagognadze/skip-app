@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader, useLoadScript } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
@@ -7,9 +7,10 @@ const containerStyle = {
 };
 
 function Map(props) {
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ",
+    libraries: ['places']
   });
 
   const options = {
@@ -25,16 +26,11 @@ function Map(props) {
   const [center, setCenter] = useState({ lat: 41.7151377, lng: 44.827096 });
 
   const getAddressFromLatLng = (location) => {
-    console.log(location);
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location: location }, (results, status) => {
       if (status === "OK") {
         let addressString = `${results[0].formatted_address}, ${results[3].formatted_address}`;
         props.onAddressChange(addressString, location.lat, location.lng);
-      } else {
-        console.log(
-          "Geocode was not successful for the following reason: " + status
-        );
       }
     });
   };
@@ -71,7 +67,6 @@ function Map(props) {
     if (autoCompletionPlace) {
       const lat = autoCompletionPlace.geometry.location.lat();
       const lng = autoCompletionPlace.geometry.location.lng();
-      console.log(autoCompletionPlace.name + " es ari mapidan");
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const latitude = lat;
