@@ -1,6 +1,7 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import Main from './components/Main';
+import HomePage from './components/HomePage';
 import Catalog from './components/Catalog';
 import OrderingSection from './components/OrderingSection';
 import Footer from './components/Footer';
@@ -14,7 +15,7 @@ function App() {
 
         <div className='content'>
           <Routes>
-            <Route path='/' element={<Main />} />
+            <Route path='/' element={<HomePage />} />
             <Route path='/catalog' element={<Catalog />} />
             <Route path='/ordering' element={<OrderingSection />} />
           </Routes>
