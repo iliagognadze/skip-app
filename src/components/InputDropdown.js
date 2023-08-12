@@ -36,6 +36,8 @@ const InputDropdown = ({
   }, [dropdownRef]);
 
   useEffect(() => {
+    console.log(apiUrl);
+
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => setChoices(data));

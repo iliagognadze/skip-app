@@ -25,7 +25,7 @@ const Navbar = () => {
       style={{ zIndex: 10 }}
     >
       <nav className="flex md:flex-row flex-col py-4 md:py-6 mx-auto justify-between items-center">
-        <div className="container mx-auto flex justify-between">
+        <div className="container mx-auto flex md:flex-row flex-col justify-between">
           <div className="flex justify-between w-full md:w-fit items-center">
             <a href="/">
               <img className="w-24" src="/skip_logo.svg" />
@@ -35,14 +35,14 @@ const Navbar = () => {
               className={`${
                 !isRespoNavbarActive ? "block" : "hidden"
               } h-8 md:hidden`}
-              src="./menu_icon.svg"
+              src="./menu_icon_white.svg"
             />
             <img
               onClick={() => setRespoNavbarStatus(!isRespoNavbarActive)}
               className={`${
                 isRespoNavbarActive ? "block" : "hidden"
               } h-8 md:hidden`}
-              src="./x_black.svg"
+              src="./round-close.svg"
             />
           </div>
           <ul className="font-mtavruli gap-8 items-center text-white md:flex hidden">
@@ -81,8 +81,8 @@ const Navbar = () => {
           </ul>
           <ul
             className={`font-mtavruli relative ${
-              isRespoNavbarActive ? "h-48" : "h-0 hidden"
-            } transition-height bg-white items-center text-secondary md:hidden flex bg-white flex-col py-4`}
+              isRespoNavbarActive ? "h-fit" : "h-0 hidden"
+            } transition-height bg-white items-center rounded-lg transition-all text-secondary mt-4 mb-3 gap-4 md:hidden flex bg-white flex-col py-4`}
           >
             <li
               className={`px-${navbarItemHorizontalPadding} py-${navItemVerticalPadding} ${

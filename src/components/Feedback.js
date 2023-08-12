@@ -3,7 +3,8 @@ const Feedback = () => {
         <div className="flex flex-col md:grid gap-3 grid-cols-2 my-8 font-mtavruli text-left text-white">
             <div className="col-span-1">
                 <div>
-                    <h1 style={{fontSize: 48}}>ჩვენთვის თქვენი აზრი <br/> მნიშვნელოვანია</h1>
+                    <h1 style={{fontSize: 48}} className="hidden md:block">ჩვენთვის თქვენი აზრი <br/> მნიშვნელოვანია</h1>
+                    <h1 className="md:hidden text-xl text-center mb-4">ჩვენთვის თქვენი აზრი <br/> მნიშვნელოვანია</h1>
                 </div>
             </div>
             <form action="/" className="relative col-span-1 flex flex-col text-sm justify-between">

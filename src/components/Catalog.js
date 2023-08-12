@@ -7,6 +7,8 @@ import LoadingSpin from "./LoadingSpin";
 import { Link } from "react-router-dom";
 
 const Catalog = () => {
+  const baseUrl = process.env.SKIP_API_BASE_URL;
+
   let [searchterm, setSearchterm] = useState("");
   let [brands, setBrands] = useState([]);
   let [viscosity, setViscosity] = useState([]);
@@ -37,7 +39,7 @@ const Catalog = () => {
 
   const [oilsData, setOilsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [url, setUrl] = useState("https://localhost:44393/api/engine-oils");
+  const [url, setUrl] = useState(`${baseUrl}/engine-oils`);
 
   useEffect(() => {
     async function fetchData() {
@@ -117,7 +119,7 @@ const Catalog = () => {
 
     const queryStringGPT = queryParams.toString();
     console.log(queryStringGPT);
-    setUrl(`https://localhost:44393/api/engine-oils?${queryParams}`);
+    setUrl(`${baseUrl}/engine-oils?${queryParams}`);
   };
 
   function clearCheckboxes() {
@@ -152,14 +154,14 @@ const Catalog = () => {
                 onChange={searchtermChangeHandler}
               ></input>
               <InputDropdown
-                apiUrl={"https://localhost:44393/api/oil-brands"}
+                apiUrl={`${baseUrl}/oil-brands`}
                 label="ბრენდი"
                 inputDropdownId={"brand"}
                 choosenData={brands}
                 onChooseData={setBrands}
               />
               <InputDropdown
-                apiUrl={"https://localhost:44393/api/viscosity-ratings"}
+                apiUrl={`${baseUrl}/viscosity-ratings`}
                 label="სიბლანტე"
                 inputDropdownId={"siblante"}
                 choosenData={viscosity}
