@@ -9,8 +9,11 @@ import LoadingModal from "./LoadingModal";
 import axios from "axios";
 
 import { getCurrentPosition } from "../functions/GetCurrentPosition";
+import OrderedSuccessfullyModal from "./OrderedSuccessfullyModal";
 
 const OrderingSection = (props) => {
+  const apiBaseUrl = 'https://skipserviceapi.azurewebsites.net/api';
+
   const location = useLocation();
 
   let [readyToPay, setReadyToPay] = useState(false);
@@ -32,6 +35,7 @@ const OrderingSection = (props) => {
   let [isCurrentPositionCalled, setCurrentPositionCalled] = useState(false);
 
   let [paymentLoading, setPaymentLoading] = useState(false);
+  let [orderedSuccessfully, setOrderedSuccessfully] = useState(false);
 
   const nameFieldRef = useRef(null);
   const surnameFieldRef = useRef(null);
@@ -48,8 +52,8 @@ const OrderingSection = (props) => {
 
   const isCarNumberValid = (number) => {
     number = number.toUpperCase();
-    var patternVersion1 = /^([A-Z]{2}-\d{3}-[A-Z]{2}|[A-Z]{3}-\d{3})$/;
-    var patternVersion2 = /^([A-Z]{2,3}-\d{3}-[A-Z]{2}|[A-Z]{3}-\d{3})$/;
+    var patternVersion1 = /^([A-Z]{2}-?\d{3}-?[A-Z]{2}|[A-Z]{3}-?\d{3})$/;
+    var patternVersion2 = /^([A-Z]{2,3}-?\d{3}-?[A-Z]{2}|[A-Z]{3}-?\d{3})$/;
 
     return patternVersion1.test(number) || patternVersion2.test(number);
   };
@@ -136,17 +140,20 @@ const OrderingSection = (props) => {
       const requestBody = order;
       setPaymentLoading(true);
       const response = await axios.post(
-        "https://localhost:44393/api/orders",
+        `${apiBaseUrl}/orders`,
         requestBody
       );
 
       console.log(response);
       setPaymentLoading(false);
+      setOrderedSuccessfully(true);
     } catch (error) {
       console.log(error.response.data.message);
       setPaymentLoading(false);
     }
   };
+
+  const closeOrderedSuccessfullyModal = () => setOrderedSuccessfully(false);
 
   const getCurrentPositionHandler = () => {
     if (navigator.geolocation) {
@@ -167,9 +174,8 @@ const OrderingSection = (props) => {
 
   return (
     <div
-      className={`font-mtavruli container mx-auto ${
-        isFromCatalogue ? "my-8" : "my-0"
-      }`}
+      className={`font-mtavruli container mx-auto ${isFromCatalogue ? "my-8" : "my-0"
+        }`}
     >
       <div className="mb-8">
         <Instruction />
@@ -188,7 +194,7 @@ const OrderingSection = (props) => {
                       setPrevOfNameField
                     )
                   }
-                  className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                   placeholder="სახელი"
                 />
                 <span className="text-red-500">*</span>
@@ -206,7 +212,7 @@ const OrderingSection = (props) => {
                       setPrevOfSurnameField
                     )
                   }
-                  className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                   placeholder="გვარი"
                 />
                 <span className="text-red-500">*</span>
@@ -226,7 +232,10 @@ const OrderingSection = (props) => {
                         setPrevOfPhoneNumberField
                       )
                     }
-                    className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                    type="tel"
+                    inputMode="numeric"
+                    onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
+                    className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                     placeholder="ტელ. ნომერი"
                   />
                 </div>
@@ -254,7 +263,7 @@ const OrderingSection = (props) => {
                       setPrevOfCarNumberField
                     )
                   }
-                  className="bg-white uppercase placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                  className="bg-white outline-none uppercase placeholder-gray-400 p-2 md:p-0 outline-0 w-full border-0 md:border-0 md:border-bottom-2 md:border-ownblack"
                   placeholder="მანქანის ნომერი (მაგ. AA-123-AA ან AAA-123)"
                 />
                 <div className="flex items-center gap-2 py-1 justify-between">
@@ -273,7 +282,7 @@ const OrderingSection = (props) => {
             <li>
               <input
                 ref={mailFieldRef}
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="მეილი"
               />
               <hr className="w-full border-1 border-ownblack" />
@@ -281,7 +290,7 @@ const OrderingSection = (props) => {
             <li>
               <input
                 ref={additionalCommentFieldRef}
-                className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
+                className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                 placeholder="დამატებითი კომენტარი"
               />
               <hr className="w-full border-1 border-ownblack" />
@@ -321,7 +330,7 @@ const OrderingSection = (props) => {
                   }
                 />
                 <div
-                  className="w-8 h-7 mb-1 flex justify-center items-center rounded cursor-pointer h-100 bg-primary"
+                  className="w-8 outline-none border-0 h-7 mb-1 flex justify-center items-center rounded cursor-pointer h-100 bg-primary"
                   onClick={getCurrentPositionHandler}
                 >
                   <img className="w-5" src="/myLocation.svg" alt="location" />
@@ -341,7 +350,7 @@ const OrderingSection = (props) => {
             </div>
           </ul>
         </form>
-        <div className="col-span-2 h-fit py-6 px-8 rounded bg-white hidden md:block">
+        <div className="col-span-2 h-fit py-6 px-8 rounded bg-white md:block">
           <div className="flex flex-col gap-4">
             <div
               className="h-48 flex flex-col overflow-hidden justify-end bg-contain bg-no-repeat bg-center bg-white"
@@ -356,18 +365,17 @@ const OrderingSection = (props) => {
             <div className="flex flex-col text-ownblack text-left gap-4">
               <div className="flex justify-between text-ownblack">
                 <p className="text-gray-400">ზეთის ღირებულება:</p>
-                <p>+{itemData && itemData.price}₾</p>
+                <p>{itemData && itemData.price}₾</p>
               </div>
               <div className="flex justify-between text-ownblack">
                 <p className="text-gray-400">სერვისის ღირებულება:</p>
-                <p>+{itemData && itemData.price}₾</p>
+                <p>{itemData && itemData.price}₾</p>
               </div>
             </div>
             <button
               id="paymentBtn"
-              className={`rounded active:bg-primary button-click w-full py-4 text-white flex items-center justify-center ${
-                readyToPay ? "bg-green-500" : "bg-gray-300"
-              } transition h-full`}
+              className={`rounded active:bg-primary button-click w-full py-4 text-white flex items-center justify-center ${readyToPay ? "bg-green-500" : "bg-gray-300"
+                } transition h-full`}
               disabled={!readyToPay}
               onClick={handlePayment}
             >
@@ -382,6 +390,12 @@ const OrderingSection = (props) => {
         modalCheckSetter={setCheckboxValue}
       />
       {paymentLoading && <LoadingModal />}
+      {orderedSuccessfully && (
+        <OrderedSuccessfullyModal 
+        isOpen={true}
+        onClose={closeOrderedSuccessfullyModal}
+        />
+      )}
     </div>
   );
 };

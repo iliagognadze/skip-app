@@ -7,7 +7,7 @@ import LoadingSpin from "./LoadingSpin";
 import { Link } from "react-router-dom";
 
 const Catalog = () => {
-  const baseUrl = process.env.SKIP_API_BASE_URL;
+  const baseUrl = 'https://skipserviceapi.azurewebsites.net/api';
 
   let [searchterm, setSearchterm] = useState("");
   let [brands, setBrands] = useState([]);
@@ -172,7 +172,7 @@ const Catalog = () => {
                   ref={litersFromRef}
                   value={litersFrom}
                   onChange={litersFromChangeHandler}
-                  type="number"
+                  onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
                   className="outline-0 placeholder-ownblack border-2 border-ownblack w-full rounded-t-lg px-2 py-1"
                   placeholder="ლიტრაჟი-დან"
                 />
@@ -180,7 +180,7 @@ const Catalog = () => {
                   ref={litersToRef}
                   value={litersTo}
                   onChange={litersToChangeHandler}
-                  type="number"
+                  onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
                   className="outline-0 placeholder-ownblack border-2 border-t-0 border-ownblack w-full rounded-b-lg px-2 py-1"
                   placeholder="ლიტრაჟი-მდე"
                 />
@@ -196,18 +196,16 @@ const Catalog = () => {
                   ref={priceFromRef}
                   value={priceFrom}
                   onChange={priceFromChangeHandler}
-                  type="number"
                   placeholder="ფასი-დან"
-                  tpye="number"
+                  onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
                   className="border-2 placeholder-ownblack border-ownblack rounded-lg py-1 px-2"
                 />
                 <input
                   ref={priceToRef}
                   value={priceTo}
                   onChange={priceToChangeHandler}
-                  type="number"
-                  placeholder="ფასი-დან"
-                  tpye="number"
+                  placeholder="ფასი-მდე"
+                  onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
                   className="border-2 placeholder-ownblack border-ownblack rounded-lg py-1 px-2"
                 />
               </div>
