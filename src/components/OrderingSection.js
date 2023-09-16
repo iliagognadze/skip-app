@@ -7,6 +7,7 @@ import Autocomplete from "react-google-autocomplete";
 import LoadingSpin from "./LoadingSpin";
 import LoadingModal from "./LoadingModal";
 import axios from "axios";
+import 'es6-promise/auto';
 
 import { getCurrentPosition } from "../functions/GetCurrentPosition";
 import OrderedSuccessfullyModal from "./OrderedSuccessfullyModal";
@@ -338,7 +339,7 @@ const OrderingSection = (props) => {
               </div>
               <hr className="w-full border-1 border-ownblack" />
             </li>
-            <div className="flex justify-end rounded-lg md:static right-0">
+            <div className="justify-end rounded-lg md:static right-0">
               <Map
                 onAddressChange={onAddressSelection}
                 autoCompletionPlace={autoCompletionPlace}

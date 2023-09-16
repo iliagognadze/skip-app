@@ -7,10 +7,10 @@ const containerStyle = {
 };
 
 function Map(props) {
-  const { isLoaded } = useLoadScript({
+  const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ",
-    libraries: ['places']
+    libraries: ["places"],
   });
 
   const options = {
@@ -29,7 +29,10 @@ function Map(props) {
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({ location: location }, (results, status) => {
         if (status === "OK") {
-          let addressString = `${results[0].formatted_address}, ${results[3].formatted_address}`;
+          let addressString = "";
+          if (results[0]) {
+            addressString = results[0].formatted_address;
+          }
           props.onAddressChange(addressString, location.lat, location.lng);
         }
       });
@@ -41,6 +44,8 @@ function Map(props) {
 
   const onMapLoad = React.useCallback((map) => {
     setMap(map);
+    setIsApiLoaded(true);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -50,7 +55,6 @@ function Map(props) {
       },
       () => null
     );
-    setIsApiLoaded(true);
   }, []);
 
   useEffect(() => {
@@ -69,7 +73,7 @@ function Map(props) {
   }, [map]);
 
   useEffect(() => {
-    if (autoCompletionPlace && autoCompletionPlace.geometry.location) {
+    if (autoCompletionPlace && autoCompletionPlace.geometry && autoCompletionPlace.geometry.location) {
       const lat = autoCompletionPlace.geometry.location.lat();
       const lng = autoCompletionPlace.geometry.location.lng();
       navigator.geolocation.getCurrentPosition(
@@ -83,10 +87,10 @@ function Map(props) {
         () => null
       );
     }
-  }, [autoCompletionPlace]);
+  }, [autoCompletionPlace, map]);
 
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (navigator.geolocation && isCurrentPositionCalled) {
       navigator.geolocation.getCurrentPosition((position) => {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
@@ -98,26 +102,30 @@ function Map(props) {
         getAddressFromLatLng({ lat: latitude, lng: longitude });
       });
     }
+  }, [isCurrentPositionCalled, map]);
 
-    props.setCurrentPositionCalled(false);
-  }, [isCurrentPositionCalled]);
-
-  return isLoaded ? (
-    <GoogleMap
-      options={options}
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={20}
-      onLoad={(map) => onMapLoad(map)}
-    >
-      <img
-        src="./pin_icon.svg"
-        style={{ top: "45%" }}
-        className="left-1/2 absolute rounded-full"
-      />
-    </GoogleMap>
-  ) : (
-    <></>
+  return (
+    <div>
+      {loadError ? (
+        <div>Error loading Google Maps</div>
+      ) : isLoaded ? (
+        <GoogleMap
+          options={options}
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={20}
+          onLoad={(map) => onMapLoad(map)}
+        >
+          <img
+            src="./pin_icon.svg"
+            style={{ top: "45%" }}
+            className="left-1/2 absolute rounded-full"
+          />
+        </GoogleMap>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </div>
   );
 }
 
