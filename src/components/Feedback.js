@@ -55,7 +55,7 @@ const Feedback = () => {
             </div>
             <div className="relative col-span-1 flex flex-col text-sm justify-between">
                 <textarea onChange={(e) => handleFieldChnage(e, setTextMessage)} className="border-2 bg-primary text-white border-white-500 rounded p-2 h-full" placeholder="მოგვწერე შენი აზრი..."></textarea>
-                <div className="absolute bottom-3 right-3">
+                <div className="md:absolute bottom-3 flex justify-center md:justify-start right-3">
                     <div className="flex items-center">
                         <div>
                             <input onChange={(e) => handleFieldChnage(e, setEmail)} className="bg-white rounded-l py-1 mt-1 px-4 text-black" placeholder="შეიყვანეთ მეილი"/>
