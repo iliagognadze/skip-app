@@ -18,21 +18,25 @@ function Map(props) {
   };
 
   const autoCompletionPlace = props.autoCompletionPlace;
-  const choosenLat = props.choosenLat;
-  const choosenLng = props.choosenLng;
   const isCurrentPositionCalled = props.isCurrentPositionCalled;
 
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState({ lat: 41.7151377, lng: 44.827096 });
+  const [isApiLoaded, setIsApiLoaded] = useState(false);
 
   const getAddressFromLatLng = (location) => {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ location: location }, (results, status) => {
-      if (status === "OK") {
-        let addressString = `${results[0].formatted_address}, ${results[3].formatted_address}`;
-        props.onAddressChange(addressString, location.lat, location.lng);
-      }
-    });
+    if (isApiLoaded) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ location: location }, (results, status) => {
+        if (status === "OK") {
+          let addressString = `${results[0].formatted_address}, ${results[3].formatted_address}`;
+          props.onAddressChange(addressString, location.lat, location.lng);
+        }
+      });
+    } else {
+      // Handle the case when the API is not yet loaded
+      console.log("Google Maps API is not loaded yet.");
+    }
   };
 
   const onMapLoad = React.useCallback((map) => {
@@ -46,6 +50,7 @@ function Map(props) {
       },
       () => null
     );
+    setIsApiLoaded(true);
   }, []);
 
   useEffect(() => {
@@ -64,7 +69,7 @@ function Map(props) {
   }, [map]);
 
   useEffect(() => {
-    if (autoCompletionPlace) {
+    if (autoCompletionPlace && autoCompletionPlace.geometry.location) {
       const lat = autoCompletionPlace.geometry.location.lat();
       const lng = autoCompletionPlace.geometry.location.lng();
       navigator.geolocation.getCurrentPosition(

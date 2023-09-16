@@ -8,18 +8,11 @@ const InputDropdown = ({
   onChooseData,
   apiUrl,
 }) => {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   let [choices, setChoices] = useState([]);
-
-  let [dropdownToggleEvent, setDropdownToggleEvent] = useState("mouseup");
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsDropdownOpen(false);
-    }
-  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -29,10 +22,6 @@ const InputDropdown = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, [dropdownRef]);
 
   useEffect(() => {
@@ -44,7 +33,6 @@ const InputDropdown = ({
   }, [apiUrl]);
 
   const handleCheckBoxChange = (event, choiceData) => {
-    const choice = event.target.value;
     if (event.target.checked) {
       onChooseData([...choosenData, choiceData]);
     } else {
@@ -54,7 +42,7 @@ const InputDropdown = ({
 
   function handleClick() {
     console.log("ZDZD0");
-    setIsDropdownOpen(true);
+    setIsDropdownOpen(!isDropdownOpen)
     console.log("it is happening", isDropdownOpen);
   }
 
@@ -67,7 +55,7 @@ const InputDropdown = ({
         onClick={handleClick}
       >
         <p className="font-mtavruli">{label}</p>
-        <img src="./arrow-down-black.png" />
+        <img className={`${isDropdownOpen ? '-rotate-180' : ''} transition-all`} src="./arrow-down-black.png" />
       </div>
 
       <div

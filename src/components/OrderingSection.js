@@ -309,10 +309,10 @@ const OrderingSection = (props) => {
                     componentRestrictions: { country: "ge" },
                     fields: ["address_components", "geometry", "icon", "name"],
                     types: [
-                      ["address"],
-                      ["establishment"],
-                      ["point_of_interest"],
-                      ["transit_station"],
+                      ['address'],
+                      ['establishment'],
+                      ['point_of_interest'],
+                      ['transit_station'],
                     ],
                   }}
                   value={
