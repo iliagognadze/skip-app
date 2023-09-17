@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Feedback from "./Feedback";
+import AutoComplete from "./AutoComplete";
 
 const HomePage = () => {
   return (

@@ -11,6 +11,7 @@ import 'es6-promise/auto';
 
 import { getCurrentPosition } from "../functions/GetCurrentPosition";
 import OrderedSuccessfullyModal from "./OrderedSuccessfullyModal";
+import AutoComplete from "./AutoComplete";
 
 const OrderingSection = (props) => {
   const apiBaseUrl = 'https://skipserviceapi.azurewebsites.net/api';
@@ -45,6 +46,10 @@ const OrderingSection = (props) => {
   const mailFieldRef = useRef(null);
   const additionalCommentFieldRef = useRef(null);
   const carNumberFieldRef = useRef(null);
+
+  const [mapMarkerCenterOffset, setMapMarkerCenterOffset] = useState(0);
+
+  const autocompleteRef = useRef(null);
 
   const isValidPhoneNumber = (number) => {
     var pattern = /^5\d{8}$/;
@@ -235,7 +240,7 @@ const OrderingSection = (props) => {
                     }
                     type="tel"
                     inputMode="numeric"
-                    onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); }}}
+                    onKeyDown={(event) => { if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Delete') { event.preventDefault(); } }}
                     className="bg-white outline-none border-0 placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                     placeholder="ტელ. ნომერი"
                   />
@@ -300,36 +305,46 @@ const OrderingSection = (props) => {
           <ul className="flex bg-white py-6 px-8 rounded-lg flex-col gap-5">
             <li>
               <div className="flex flex-items-center justify-between">
-                <Autocomplete
+                <AutoComplete 
+                  addressFieldRef={addressFieldRef}
+                  prevOfAddressField={prevOfAddressField}
+                  setPrevOfAddressField={setPrevOfAddressField}
+                  onChange={inputFieldChangeHandler}
+                  value={
+                    addressFieldRef.current
+                      ? addressFieldRef.current?.value
+                      : "მიუთითე ლოკაცია"
+                  }
+                  onPlaceSelected={setAutoCompletionPlace}
+                />
+                {/* <Autocomplete
+                  currentLocation={true}
                   className="bg-white placeholder-gray-400 p-2 md:p-0 outline-0 w-full border md:border-0 md:border-bottom-2 md:border-ownblack"
                   apiKey={"AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ"}
                   onPlaceSelected={(place) => {
+                    console.log(place);
                     setAutoCompletionPlace(place);
                   }}
                   options={{
                     componentRestrictions: { country: "ge" },
                     fields: ["address_components", "geometry", "icon", "name"],
-                    types: [
-                      ['address'],
-                      ['establishment'],
-                      ['point_of_interest'],
-                      ['transit_station'],
-                    ],
+                    types: ["establishment"]
                   }}
                   value={
                     addressFieldRef.current
                       ? addressFieldRef.current?.value
-                      : "p"
+                      : "მიუთითე ლოკაცია"
                   }
                   ref={addressFieldRef}
-                  onChange={() =>
+                  onChange={() => {
                     inputFieldChangeHandler(
                       addressFieldRef,
                       prevOfAddressField,
                       setPrevOfAddressField
-                    )
-                  }
-                />
+                    );
+                    console.log(addressFieldRef);
+                  }}
+                /> */}
                 <div
                   className="w-8 outline-none border-0 h-7 mb-1 flex justify-center items-center rounded cursor-pointer h-100 bg-primary"
                   onClick={getCurrentPositionHandler}
@@ -392,9 +407,9 @@ const OrderingSection = (props) => {
       />
       {paymentLoading && <LoadingModal />}
       {orderedSuccessfully && (
-        <OrderedSuccessfullyModal 
-        isOpen={true}
-        onClose={closeOrderedSuccessfullyModal}
+        <OrderedSuccessfullyModal
+          isOpen={true}
+          onClose={closeOrderedSuccessfullyModal}
         />
       )}
     </div>

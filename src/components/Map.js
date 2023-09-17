@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { GoogleMap, Marker, useJsApiLoader, useLoadScript } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -6,12 +6,16 @@ const containerStyle = {
   height: "400px",
 };
 
+const librariesForLoadScript = ["places"]
+
 function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDxQtc2nUDT6g4tg3y0TcP3pJU7mA0VbeQ",
-    libraries: ["places"],
+    libraries: librariesForLoadScript,
   });
+
+  const [mapMarkerCenterOffset, setMapMarkerCenterOffset] = useState(0);
 
   const options = {
     disableDefaultUI: false,
@@ -57,7 +61,7 @@ function Map(props) {
     );
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (map) {
       const listener = map.addListener("bounds_changed", () => {
         getAddressFromLatLng({
@@ -66,13 +70,25 @@ function Map(props) {
         });
       });
 
+      let mapElementWidth = document.getElementById("googleMap").getBoundingClientRect().width;
+      let offset = (mapElementWidth / 2) - 23;
+      setMapMarkerCenterOffset(offset);
+
       return () => {
         window.google.maps.event.removeListener(listener);
       };
     }
   }, [map]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (map) 
+    {
+      alert("wow");
+      map.panTo({ lat: center.lat, lng: center.lng })
+    };
+  }, [center])
+
+  useLayoutEffect(() => {
     if (autoCompletionPlace && autoCompletionPlace.geometry && autoCompletionPlace.geometry.location) {
       const lat = autoCompletionPlace.geometry.location.lat();
       const lng = autoCompletionPlace.geometry.location.lng();
@@ -86,10 +102,11 @@ function Map(props) {
         },
         () => null
       );
+      alert(`${lat}, ${lng} from map hook`)
     }
-  }, [autoCompletionPlace, map]);
+  }, [autoCompletionPlace]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (navigator.geolocation && isCurrentPositionCalled) {
       navigator.geolocation.getCurrentPosition((position) => {
         let lat = position.coords.latitude;
@@ -100,12 +117,14 @@ function Map(props) {
         setCenter({ lat: latitude, lng: longitude });
         if (map) map.panTo({ lat: latitude, lng: longitude });
         getAddressFromLatLng({ lat: latitude, lng: longitude });
+        props.setCurrentPositionCalled(false);
+        console.log(lat, lng);
       });
     }
-  }, [isCurrentPositionCalled, map]);
+  }, [isCurrentPositionCalled]);
 
   return (
-    <div>
+    <div id="googleMap">
       {loadError ? (
         <div>Error loading Google Maps</div>
       ) : isLoaded ? (
@@ -117,9 +136,10 @@ function Map(props) {
           onLoad={(map) => onMapLoad(map)}
         >
           <img
+            id="marker"
             src="./pin_icon.svg"
-            style={{ top: "45%" }}
-            className="left-1/2 absolute rounded-full"
+            style={{ top: "45%", width: "56px", left: `${mapMarkerCenterOffset}px` }}
+            className="absolute rounded-full"
           />
         </GoogleMap>
       ) : (

@@ -11,7 +11,7 @@ const Catalog = () => {
 
   let [searchterm, setSearchterm] = useState("");
   let [brands, setBrands] = useState([]);
-  let [viscosity, setViscosity] = useState([]);
+  let [apiCategories, setApiCategories] = useState([]);
   let [litersFrom, setLitersFrom] = useState("");
   let [litersTo, setLitersTo] = useState("");
   let [composition, setComposition] = useState([]);
@@ -28,10 +28,10 @@ const Catalog = () => {
 
   let choosenInformation = {
     searchterm: searchterm,
-    oilBrandIds: brands,
+    oilBrandIds: brands.length > 0 ? brands : null,
     litersFrom: litersFrom,
     litersTo: litersTo,
-    viscosityIds: viscosity,
+    apiCategoryIds: apiCategories.length > 0 ? apiCategories : null,
     composition: composition,
     priceFrom: priceFrom,
     priceTo: priceTo,
@@ -64,7 +64,7 @@ const Catalog = () => {
     setBrands([]);
     setLitersFrom("");
     setLitersTo("");
-    setViscosity([]);
+    setApiCategories([]);
     setComposition([]);
     setPriceFrom("");
     setPriceTo("");
@@ -161,11 +161,11 @@ const Catalog = () => {
                 onChooseData={setBrands}
               />
               <InputDropdown
-                apiUrl={`${baseUrl}/viscosity-ratings`}
-                label="სიბლანტე"
-                inputDropdownId={"siblante"}
-                choosenData={viscosity}
-                onChooseData={setViscosity}
+                apiUrl={`${baseUrl}/api-categories`}
+                label="სტანდარტი"
+                inputDropdownId={"api-standard"}
+                choosenData={apiCategories}
+                onChooseData={setApiCategories}
               />
               <div className="flex flex-col">
                 <input
@@ -226,7 +226,7 @@ const Catalog = () => {
             </form>
           </div>
           <div
-            className={`col-span-9 flex md:flex-row flex-col md:grid ${
+            className={`col-span-9 h-fit flex md:flex-row flex-col md:grid ${
               !isLoading && "grid-cols-4"
             } gap-4`}
           >
